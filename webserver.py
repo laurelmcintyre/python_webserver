@@ -31,10 +31,11 @@ def app(environ, start_response):
         query = "SELECT english || ' ' || spanish FROM Translation \
         WHERE english=?;"
         connection = sqlite3.connect('translation.db')
+        connection.text_factory = str
         cursor = connection.cursor()
         input_text = post.getlist("textinput")
         cursor.execute(query, input_text)
-        results = cursor.fetchall()
+        results = [r[0] for r in cursor.fetchall()]
         cursor.close()
         connection.close()
         html = b'Translate, ' + str(results) + '.'
