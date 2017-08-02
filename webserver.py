@@ -35,10 +35,8 @@ def app(environ, start_response):
         input_text = post.getlist("textinput")
         cursor.execute(query, input_text)
         results = cursor.fetchall()
-        print post
         cursor.close()
         connection.close()
-        print results
         html = b'Translate, ' + str(results) + '.'
     start_response('200 OK', [('Content-Type', 'text/html')])
     return [html]
