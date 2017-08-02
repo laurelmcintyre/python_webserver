@@ -28,8 +28,7 @@ def app(environ, start_response):
                                 environ=post_env,
                                 keep_blank_values=True
                                 )
-        query = "SELECT english || ' ' || spanish FROM Translation \
-        WHERE english=?;"
+        query = "SELECT spanish FROM Translation WHERE english=?;"
         connection = sqlite3.connect('translation.db')
         connection.text_factory = str
         cursor = connection.cursor()
@@ -38,7 +37,7 @@ def app(environ, start_response):
         results = [r[0] for r in cursor.fetchall()]
         cursor.close()
         connection.close()
-        html = b'Translate, ' + str(results) + '.'
+        html = str(results)
     start_response('200 OK', [('Content-Type', 'text/html')])
     return [html]
 
