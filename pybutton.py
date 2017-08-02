@@ -21,9 +21,10 @@ class App:
         WHERE english=?;"
 
         connection = sqlite3.connect(database_file)
+        connection.text_factory = str
         cursor = connection.cursor()
         cursor.execute(query, [word_eng])
-        results = cursor.fetchall()
+        results = [r[0] for r in cursor.fetchall()]
         cursor.close()
         connection.close()
 
